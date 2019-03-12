@@ -1,0 +1,36 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lblList"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvStudentName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center|left"
+        android:text="Md. Al-Amin"
+        android:textColor="#ff894306"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/tvStudentId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|left"
+        android:text="201531043015"
+        android:textColor="#ff894306"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tvDept"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|left"
+        android:text="CSE"
+        android:textColor="#ff894306"
+        android:textSize="15dp" />
+
+</LinearLayout>

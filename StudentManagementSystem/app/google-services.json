@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "862260588236",
+    "firebase_url": "https://studentmanagementsystem-16abd.firebaseio.com",
+    "project_id": "studentmanagementsystem-16abd",
+    "storage_bucket": "studentmanagementsystem-16abd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862260588236:android:95de3939526f2322",
+        "android_client_info": {
+          "package_name": "com.example.studentmanagementsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862260588236-tiojtime5it75rfs1l7u5ssrsg3cm5m4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.studentmanagementsystem",
+            "certificate_hash": "04ecc6b69e14d56305c8d73ef00dcf84b8cd94a7"
+          }
+        },
+        {
+          "client_id": "862260588236-c2gf2cmcfq7bsq6p2147gr2rbjgq9m6v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9qerCvfiFG44W_8BbkWNYvVM753v6CR8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862260588236-c2gf2cmcfq7bsq6p2147gr2rbjgq9m6v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
