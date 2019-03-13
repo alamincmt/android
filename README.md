@@ -1,12 +1,13 @@
 # Android Development Related Projects. 
-Material Design
-SQLite Database
-Realm Database
-Android MVP
-RESTful API's
-Network Libraries(Volley, Retrfit) etc.
-Simple animation
-Custom drawables, Vector image, Creating Android SDK. 
+    Material Design
+    SQLite Database
+    Realm Database
+    Android MVP
+    RESTful API's
+    Network Libraries(Volley, Retrfit) etc.
+    Simple animation
+    Custom drawables, Vector image, Creating Android SDK. 
 
 # Update: 
-# Added firebase realtime database with CRUD operation. 
+# Added StudentManagementSystem project.
+Firebase realtime database with CRUD operation. 
