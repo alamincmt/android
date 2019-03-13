@@ -1,5 +1,6 @@
 package com.example.studentmanagementsystem;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,9 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Date;
 
-public class AddNewStudentActivity extends AppCompatActivity {
+public class AddNewStudentOrUpdateActivity extends AppCompatActivity {
 
     private EditText et_student_id, et_student_name;
     private Button btn_save;
@@ -36,6 +36,8 @@ public class AddNewStudentActivity extends AppCompatActivity {
     ArrayList<Departments> deptList = new ArrayList<>();
     ArrayList<String> deptNameList = new ArrayList<>();
     private String firebaseDeptId = "";
+    private boolean isNeedToUpdate = false;
+    private String firebaseStudentID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,23 @@ public class AddNewStudentActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Add New Student");
 
         initViews();
+
+        Intent intent = getIntent();
+        if(intent != null){
+            isNeedToUpdate = intent.getBooleanExtra("Update", false);
+            if(isNeedToUpdate){
+                firebaseStudentID = intent.getStringExtra("firebaseStudentId");
+                String studentId = intent.getStringExtra("studentId");
+                String studentDept = intent.getStringExtra("studentDept");
+                String studentName = intent.getStringExtra("studentName");
+
+                 getSupportActionBar().setTitle("Update Information");
+
+                 et_student_id.setText(studentId);
+                 et_student_name.setText(studentName);
+                 btn_save.setText("Update");
+            }
+        }
 
         //getting the reference of students node
         studentReference = FirebaseDatabase.getInstance().getReference("students");
@@ -73,7 +92,7 @@ public class AddNewStudentActivity extends AppCompatActivity {
                 }
 
                 //creating adapter
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(AddNewStudentActivity.this, android.R.layout.simple_list_item_1, deptNameList);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(AddNewStudentOrUpdateActivity.this, android.R.layout.simple_list_item_1, deptNameList);
                 spinner_departments.setAdapter(arrayAdapter);
             }
 
@@ -86,7 +105,7 @@ public class AddNewStudentActivity extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveStudent();
+                saveStudentOrUpdate();
             }
         });
 
@@ -104,24 +123,32 @@ public class AddNewStudentActivity extends AppCompatActivity {
 
     }
 
-    private void saveStudent() {
+    private void saveStudentOrUpdate() {
         String studentId = et_student_id.getText().toString().trim();
         String studentName = et_student_name.getText().toString().trim();
 
         if(!TextUtils.isEmpty(studentId) && !TextUtils.isEmpty(studentName)){
-            //getting a unique id using push().getKey() method
-            //it will create a unique id and we will use it as the Primary Key for our Student
-            String firebaseStudentID = studentReference.push().getKey();
+            if(isNeedToUpdate){
+                //creating an Student Object
+                Students students = new Students(firebaseStudentID, studentName, studentId, firebaseDeptId);
+                //Saving the Dept
+                studentReference.child(firebaseStudentID).setValue(students);
+                Toast.makeText(AddNewStudentOrUpdateActivity.this, "Data Updated successfully. ", Toast.LENGTH_LONG).show();
+            }else{
+                //getting a unique id using push().getKey() method
+                //it will create a unique id and we will use it as the Primary Key for our Student
+                String firebaseStudentID = studentReference.push().getKey();
 
-            //creating an Student Object
-            Students students = new Students(firebaseStudentID, studentId, studentName, firebaseDeptId);
+                //creating an Student Object
+                Students students = new Students(firebaseStudentID, studentName, studentId, firebaseDeptId);
 
-            //Saving the Dept
-            studentReference.child(firebaseStudentID).setValue(students);
-            Toast.makeText(AddNewStudentActivity.this, "Data saved successfully. ", Toast.LENGTH_LONG).show();
+                //Saving the Dept
+                studentReference.child(firebaseStudentID).setValue(students);
+                Toast.makeText(AddNewStudentOrUpdateActivity.this, "Data saved successfully. ", Toast.LENGTH_LONG).show();
+            }
 
         }else{
-            Toast.makeText(AddNewStudentActivity.this, "Please data first...", Toast.LENGTH_LONG).show();
+            Toast.makeText(AddNewStudentOrUpdateActivity.this, "Please data first...", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -139,8 +166,8 @@ public class AddNewStudentActivity extends AppCompatActivity {
         studentReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                et_student_id.setText("");
-                et_student_name.setText("");
+//                et_student_id.setText("");
+//                et_student_name.setText("");
             }
 
             @Override

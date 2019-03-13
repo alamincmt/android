@@ -1,16 +1,26 @@
 package com.example.studentmanagementsystem.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AlertDialogLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.studentmanagementsystem.AddNewStudentOrUpdateActivity;
 import com.example.studentmanagementsystem.R;
+import com.example.studentmanagementsystem.model.Departments;
 import com.example.studentmanagementsystem.model.Students;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -18,6 +28,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.SuraView
 
     private Context context;
     private List<Students> studentsList;
+    private List<Departments> departmentsList;
     private Students students;
 
 
@@ -29,19 +40,36 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.SuraView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SuraViewHolder holder, final int position) {
-        students = studentsList.get(position);
+    public void onBindViewHolder(final @NonNull SuraViewHolder holder, final int position) {
+        students = studentsList.get(holder.getAdapterPosition());
 
-        holder.tvStudentName.setText("Student Name: " + students.getStudentName());
-        holder.tvStudentID.setText("ID: " + students.getStudentId());
-        holder.tvStudentDept.setText( "Dept: "+students.getStudentDepartment());
+        Log.d("StudentData: ", "Dept: "+ students.getStudentDepartment().toString() + " \n");
+        System.out.println("\n");
+
+        if(students.getStudentName().equals("")){
+            holder.tvStudentName.setText("Student Name: " + "--");
+        }else{
+            holder.tvStudentName.setText("Student Name: " + students.getStudentName());
+        }
+
+        if(students.getStudentId().equals("")){
+            holder.tvStudentID.setText("ID: " + "--");
+        }else{
+            holder.tvStudentID.setText("ID: " + students.getStudentId());
+        }
+
+        holder.tvStudentDept.setText( "Dept: " + "--");
+        if(students.getStudentDepartment().equals("")){
+            holder.tvStudentDept.setText( "Dept: " + "--");
+        }else{
+            holder.tvStudentDept.setText( "Dept: "+students.getStudentDepartment());
+        }
 
         holder.lblList.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-//                showBookmarkDeleteConfirmationDialog("আপনি কি এই বুকমার্কটি মুছে ফেলতে চান?", position, R.style.dialog_animation);
-//                notifyDataSetChanged();
-//                notifyItemRemoved(position);
+                showUpdateDeleteDialog(studentsList.get(holder.getAdapterPosition()));
+                notifyDataSetChanged();
                 return true;
             }
         });
@@ -49,45 +77,36 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.SuraView
 
 
 
-    private void showBookmarkDeleteConfirmationDialog(String message, int position, int animation) {
-        /*Dialog dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.dialog_hadis_delete_confrimation, null, false);
-
-        Button btn_cancel, btn_exit;
-        btn_cancel = view.findViewById(R.id.btn_cancel);
-        btn_exit = view.findViewById(R.id.btn_exit);
-        TextView tvTitle = view.findViewById(R.id.tv_dialog_title);
-        tvTitle.setText(message);
-
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
+    private void showUpdateDeleteDialog(final Students students) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Options - ");
+        builder.setMessage("What do you want to do?");
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(context, "Update selected. ", Toast.LENGTH_LONG).show();
+                context.startActivity(new Intent(context, AddNewStudentOrUpdateActivity.class).putExtra("Update", true)
+                .putExtra("firebaseStudentId", students.getFbStudentId())
+                .putExtra("studentName", students.getStudentName())
+                .putExtra("studentDept", students.getStudentDepartment())
+                .putExtra("studentId", students.getStudentId()));
+                builder.create().dismiss();
             }
         });
 
-        btn_exit.setOnClickListener(new View.OnClickListener() {
+        builder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(dbOperations.removeBookmark(studentsList.get(position).getId())){
-                    utils.showToastLong("বুকমার্ক সফলভাবে মুছে ফেলা হয়েছে।");
-                    studentsList.remove(position);
-                    notifyDataSetChanged();
-                    notifyItemChanged(position);
-                }
-                dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+                // Deleting student data from students reference.
+                DatabaseReference studentReference = FirebaseDatabase.getInstance().getReference("students").child(students.getFbStudentId());
+                studentReference.removeValue();
+                Toast.makeText(context, "Selected item deleted successfully. ", Toast.LENGTH_LONG).show();
+
+                builder.create().dismiss();
             }
         });
 
-        dialog.setContentView(view);
-        final Window window = dialog.getWindow();
-        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        window.setGravity(Gravity.CENTER);
-        window.getAttributes().windowAnimations = animation;
-        dialog.show();*/
+        builder.create().show();
     }
 
     @Override
@@ -110,9 +129,10 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.SuraView
         }
     }
 
-    public StudentAdapter(Context context, List<Students> studentsList){
+    public StudentAdapter(Context context, List<Students> studentsList, List<Departments> departmentsList){
         this.context = context;
         this.studentsList = studentsList;
+        this.departmentsList = departmentsList;
     }
 
 }
