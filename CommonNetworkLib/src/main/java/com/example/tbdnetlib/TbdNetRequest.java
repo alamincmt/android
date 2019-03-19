@@ -44,7 +44,7 @@ public class TbdNetRequest {
 
     private String response = "";
     private URL url;
-    private TbdNetLibListener listener;
+    private NetLibListener listener;
 
     public TbdNetRequest(){
         this.listener = null;
@@ -52,7 +52,7 @@ public class TbdNetRequest {
 
     public void POST(String url, HashMap<String, String> headerParams){
         // Checking internet connectivity
-        if(!TbdNetLibUtils.isNetworkAvailable(context)){
+        if(!NetLibUtils.isNetworkAvailable(context)){
             this.listener.onNetworkFailed("Network connection failed!");
             return;
         }
@@ -63,7 +63,7 @@ public class TbdNetRequest {
 
     public void POST(String url, HashMap<String, String> hashMap, HashMap<String, String> headerParams){
         // Checking internet connectivity
-        if(!TbdNetLibUtils.isNetworkAvailable(context)){
+        if(!NetLibUtils.isNetworkAvailable(context)){
             this.listener.onNetworkFailed("Network connection failed!");
             return;
         }
@@ -74,7 +74,7 @@ public class TbdNetRequest {
 
     public void SaveDeviceInformation(String url, HashMap<String, String> headerParams){
         // Checking internet connectivity
-        if(!TbdNetLibUtils.isNetworkAvailable(context)){
+        if(!NetLibUtils.isNetworkAvailable(context)){
             this.listener.onNetworkFailed("Network connection failed!");
             return;
         }
@@ -85,7 +85,7 @@ public class TbdNetRequest {
 
     public void GET(String url, HashMap<String, String> headerParams){
         // Checking internet connectivity
-        if(!TbdNetLibUtils.isNetworkAvailable(context)){
+        if(!NetLibUtils.isNetworkAvailable(context)){
             this.listener.onNetworkFailed("Network connection failed!");
             return;
         }
@@ -96,7 +96,7 @@ public class TbdNetRequest {
 
     public void GET(String url, HashMap<String, String> hashMap, HashMap<String, String> headerParams){
         // Checking internet connectivity
-        if(!TbdNetLibUtils.isNetworkAvailable(context)){
+        if(!NetLibUtils.isNetworkAvailable(context)){
             this.listener.onNetworkFailed("Network connection failed!");
             return;
         }
@@ -254,11 +254,11 @@ public class TbdNetRequest {
         return  stringBuilder.toString();
     }
 
-    public void setTBDAdsLibListener(TbdNetLibListener listener) {
+    public void setNetLibListener(NetLibListener listener) {
         this.listener = listener;
     }
 
-    public interface TbdNetLibListener {
+    public interface NetLibListener {
 
         void onError(String message);
 
