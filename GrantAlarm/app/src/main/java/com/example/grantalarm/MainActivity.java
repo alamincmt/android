@@ -2,6 +2,9 @@ package com.example.grantalarm;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -62,7 +65,13 @@ public class MainActivity extends AppCompatActivity {
                                 1000 * 60 * 5, alarmIntent);
                     }else{
                         // set alarm with jobscheduler
-
+                        ComponentName componentName = new ComponentName(getApplicationContext(),
+                                TestJobService.class);
+                        JobInfo jobInfoObj = new JobInfo.Builder(1, componentName)
+                                .setPeriodic(50000).build();
+                        JobScheduler jobScheduler = (JobScheduler)getApplicationContext()
+                                .getSystemService(JOB_SCHEDULER_SERVICE);
+                        jobScheduler.schedule(jobInfoObj);
                     }
                 }else{
                     Toast.makeText(MainActivity.this, "Selected time diff is: " + milliseconds + "\nAlarm will not granted with negative value. ", Toast.LENGTH_LONG).show();

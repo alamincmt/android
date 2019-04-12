@@ -21,6 +21,19 @@
             android:name=".AlarmReceiver"
             android:process=":remote"/>
 
+        <receiver android:name="MyStartServiceReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".TestJobService"
+            android:label="Word service"
+            android:permission="android.permission.BIND_JOB_SERVICE" >
+
+        </service>
+
     </application>
 
 </manifest>
