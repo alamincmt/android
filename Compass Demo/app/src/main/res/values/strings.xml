@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Compass Demo</string>
+
+    <string name="no_location">No location detected</string>
+    <string name="qaba_distance">ক্বাবার দূরত্বঃ </string>
+    <string name="qibla_direction">উত্তর দিক থেকে ক্বিবলার অভিমুখঃ </string>
+    <string name="qibla_notice">বিঃদ্রঃ কম্পাসটিকে রিসেট করার জন্য আনুভূমিক রেখায় ডিভাইসটি ঘুরান।</string>
+    <string name="quibla_compass">ক্বিবলা কম্পাস</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="ok">ঠিক আছে</string>
+    <string name="compass_not_supported">আপনার ডিভাইসটিতে কম্পাসের সাপোর্ট নেই।</string>
+    <string name="location_permission">Please set location permission from settings.</string>
+    <string name="changeCompassView">কম্পাস ভিউ পরিবর্তন</string>
+    <string name="internet_alert">দুঃখিত! আপনার ডিভাইসটিতে এই মূহুর্তে ইন্টারনেটের সংযোগ নেই, ইন্টারনেটের সংযোগ সচল করুন এবং আবার চেষ্টা করুন।</string>
+</resources>
