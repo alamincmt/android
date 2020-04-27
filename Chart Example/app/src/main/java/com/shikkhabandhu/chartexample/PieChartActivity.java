@@ -30,9 +30,9 @@ public class PieChartActivity extends AppCompatActivity {
 
         //add colors to dataset
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.rgb(255,194,158)); // color yellow
-        colors.add(Color.rgb(198,2,2)); // color red
-        colors.add(Color.rgb(0,255,34)); // green color
+        colors.add(Color.rgb(242, 197, 64)); // color yellow
+        colors.add(Color.rgb(237, 28, 36)); // color red
+        colors.add(Color.rgb(44, 179, 116)); // green color
 
 
         PieDataSet pieDataSet = new PieDataSet(dataList, "Marks Data");
@@ -46,15 +46,15 @@ public class PieChartActivity extends AppCompatActivity {
         pieChart.setData(pieData);
         pieChart.getDescription().setEnabled(false);
         pieChart.setCenterText("88");
-        pieChart.setCenterTextSize(30f);
+        pieChart.setCenterTextSize(25f);
         pieChart.setCenterTextColor(getResources().getColor(android.R.color.white));
-        pieChart.setEntryLabelTextSize(25f);
+        pieChart.setEntryLabelTextSize(20f);
         pieChart.setEntryLabelColor(getResources().getColor(android.R.color.white));
 
         ///// disabling chart legend
         pieChart.getLegend().setEnabled(false);
 
-        pieChart.setHoleColor(getResources().getColor(android.R.color.widget_edittext_dark));
+        pieChart.setHoleColor(getResources().getColor(R.color.pie_chart_center));
         pieChart.setHoleRadius(50f);
         pieChart.animate();
 
