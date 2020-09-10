@@ -1,15 +1,19 @@
 package com.example.compassdemo;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +28,7 @@ import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.internal.view.SupportMenu;
@@ -31,6 +36,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -40,6 +46,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 public class CompassActivity extends AppCompatActivity implements SensorEventListener, OnMapReadyCallback {
     private long SensorSendTime;

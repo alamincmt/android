@@ -15,6 +15,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoCompass(View view) {
-        startActivity(new Intent(MainActivity.this, CompassActivity.class));
+        startActivity(new Intent(MainActivity.this, CompassActivity.class).putExtra("lat", 23.745002).putExtra("lng", 90.355151));
     }
 }
